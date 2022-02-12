@@ -132,10 +132,12 @@ function () {
     this.data = data;
   }
 
-  ;
-
   User.prototype.get = function (propName) {
     return this.data[propName];
+  };
+
+  User.prototype.set = function (update) {
+    Object.assign(this.data, update);
   };
 
   return User;
@@ -154,6 +156,9 @@ var User_1 = require("./models/User");
 var user = new User_1.User({
   name: 'kronos',
   age: 20
+});
+user.set({
+  age: 111
 });
 console.log(user.get('age'));
 },{"./models/User":"src/models/User.ts"}],"../../../.nvm/versions/node/v16.13.2/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {

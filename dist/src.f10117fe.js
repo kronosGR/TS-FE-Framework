@@ -117,7 +117,34 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"src/models/Eventing.ts":[function(require,module,exports) {
+})({"src/models/Attributes.ts":[function(require,module,exports) {
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Attributes = void 0;
+
+var Attributes =
+/** @class */
+function () {
+  function Attributes(data) {
+    this.data = data;
+  }
+
+  Attributes.prototype.get = function (key) {
+    return this.data[key];
+  };
+
+  Attributes.prototype.set = function (update) {
+    Object.assign(this.data, update);
+  };
+
+  return Attributes;
+}();
+
+exports.Attributes = Attributes;
+},{}],"src/models/Eventing.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2305,6 +2332,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.User = void 0;
 
+var Attributes_1 = require("./Attributes");
+
 var Eventing_1 = require("./Eventing");
 
 var Sync_1 = require("./Sync");
@@ -2314,17 +2343,38 @@ var rootUrl = 'http://localhost:3000/users';
 var User =
 /** @class */
 function () {
-  function User(data) {
-    this.data = data;
+  function User(attrs) {
     this.events = new Eventing_1.Eventing();
     this.sync = new Sync_1.Sync(rootUrl);
+    this.attributes = new Attributes_1.Attributes(attrs);
   }
 
+  Object.defineProperty(User.prototype, "on", {
+    get: function get() {
+      return this.events.on;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "trigger", {
+    get: function get() {
+      return this.events.trigger;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "get", {
+    get: function get() {
+      return this.attributes.get;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return User;
 }();
 
 exports.User = User;
-},{"./Eventing":"src/models/Eventing.ts","./Sync":"src/models/Sync.ts"}],"src/index.ts":[function(require,module,exports) {
+},{"./Attributes":"src/models/Attributes.ts","./Eventing":"src/models/Eventing.ts","./Sync":"src/models/Sync.ts"}],"src/index.ts":[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -2337,7 +2387,9 @@ var user = new User_1.User({
   name: ' Zeus',
   age: 10
 });
-user.save();
+user.on('change', function () {
+  console.log("User changed");
+});
 },{"./models/User":"src/models/User.ts"}],"../../../.nvm/versions/node/v16.13.2/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
@@ -2366,7 +2418,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "41195" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "45391" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

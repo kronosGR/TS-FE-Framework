@@ -1,4 +1,4 @@
-# TypeScript - FrontEnd Framework
+# TypeScript - Web Framework
 
 * Typescript
 * Parcel bundler

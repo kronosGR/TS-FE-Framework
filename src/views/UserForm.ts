@@ -1,8 +1,6 @@
-import { User } from '../models/User';
+import { User, UserProps } from '../models/User';
 import { View } from './View';
-export class UserForm extends View {
-  
-
+export class UserForm extends View<User, UserProps> {
   eventsMap(): { [key: string]: () => void } {
     return {
       'click:.set-age': this.onSetAgeClick,
@@ -13,7 +11,7 @@ export class UserForm extends View {
 
   onSetNameClick = (): void => {
     const input = this.parent.querySelector('input');
-    
+
     if (input) {
       const name = input.value;
       this.model.set({ name: name });
@@ -36,6 +34,4 @@ export class UserForm extends View {
       </div>
     `;
   }
-
-  
 }

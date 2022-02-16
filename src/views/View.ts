@@ -1,4 +1,4 @@
-import { Model } from "../models/Model";
+import { Model } from '../models/Model';
 import { UserProps } from '../models/User';
 
 export abstract class View<T extends Model<K>, K> {
@@ -6,8 +6,11 @@ export abstract class View<T extends Model<K>, K> {
     this.bindModel();
   }
 
-  abstract eventsMap(): { [key: string]: () => void };
   abstract template(): string;
+
+  eventsMap(): { [key: string]: () => void } {
+    return {};
+  }
 
   bindModel(): void {
     this.model.on('change', () => {
